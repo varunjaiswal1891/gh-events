@@ -1,5 +1,8 @@
 name: Events Demo 1
-on: [push, workflow_dispatch]
+on: 
+  pull_request:
+    types: [opened, closed]
+  workflow_dispatch:
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -9,7 +12,7 @@ jobs:
       - name: Get code
         uses: actions/checkout@v2
       - name: Install dependencies
-        run: npm ci 
+        run: npm install 
       #- name: Run tests
       #  run: npm run test
       - name: Build code
