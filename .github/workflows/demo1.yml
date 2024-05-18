@@ -6,6 +6,8 @@ on:
   push:
     branches:
       - master  
+      - 'dev-*' # Match any branch name starting with 'dev-'
+      - 'feature/**' # Match any branch name starting with 'feature/ eg feature/abc, feature/xyz/axz'    
 jobs:
   deploy:
     runs-on: ubuntu-latest
