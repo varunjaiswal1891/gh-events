@@ -29,5 +29,14 @@ jobs:
     steps:
       - name: Output Event Data
         run: echo "${{ toJson(github.event) }}"
+      - name: Get build artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: dist-files
+          path: dist  
+      - name: show curr dir path
+        run: pwd    
+      - name: Output content of folder
+        run: ls -l    
       - name: Deploy project code 
         run: echo "Deploying..."     
