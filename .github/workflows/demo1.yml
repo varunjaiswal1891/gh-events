@@ -36,7 +36,7 @@ jobs:
           path: dist  
       - name: show curr dir path
         run: pwd    
-      - name: Output content of folder
-        run: ls -l    
+      - name: Output content of dist folder
+        run: ls -al dist
       - name: Deploy project code 
         run: echo "Deploying..."     
