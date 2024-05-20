@@ -30,6 +30,7 @@ jobs:
           path: test.json   
 
   build-job: 
+    needs: test-job
     runs-on: ubuntu-latest
     outputs:
       script-file: ${{ steps.publishId.outputs.script-file }}
