@@ -8,7 +8,6 @@ on:
       - master  
    #   - 'dev-*' # Match any branch name starting with 'dev-'
    #   - 'feature/**' # Match any branch name starting with 'feature/ eg feature/abc, feature/xyz/axz'    
-   # test comment
 jobs:
   build-job: 
     runs-on: ubuntu-latest
