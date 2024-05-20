@@ -1,26 +1,28 @@
 name: Events Demo 1
 on: 
-  pull_request:
-    types: [opened, closed]
-  workflow_dispatch:
+  #pull_request:
+  #  types: [opened, closed]
+  #workflow_dispatch:
   push:
     branches:
       - master  
-      - 'dev-*' # Match any branch name starting with 'dev-'
-      - 'feature/**' # Match any branch name starting with 'feature/ eg feature/abc, feature/xyz/axz'    
+   #   - 'dev-*' # Match any branch name starting with 'dev-'
+   #   - 'feature/**' # Match any branch name starting with 'feature/ eg feature/abc, feature/xyz/axz'    
 jobs:
-  deploy:
+  build-job: 
     runs-on: ubuntu-latest
     steps:
-      - name: Output Event Data
-        run: echo "${{ toJson(github.event) }}"
       - name: Get code
         uses: actions/checkout@v2
       - name: Install dependencies
         run: npm install 
-      - name: Run tests
-        run: npm run test
       - name: Build code
         run: npm run build
+  deploy-job:
+    needs: build-job
+    runs-on: ubuntu-latest
+    steps:
+      - name: Output Event Data
+        run: echo "${{ toJson(github.event) }}"
       - name: Deploy project code 
-        run: echo "Deploying code"     
+        run: echo "Deploying..."     
