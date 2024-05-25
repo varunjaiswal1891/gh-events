@@ -1,0 +1,75 @@
+name: Use reusable workflow
+on: 
+ push:
+    branches:
+      - master  
+  
+jobs:
+  test-job:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get code
+        uses: actions/checkout@v2
+      - name: Cache dependencies
+        id: cache
+        uses: actions/cache@v2 
+        with:
+           path: node_modules
+           key: deps-node-modules-${{ hashFiles('**/package-lock.json') }}
+      - name: Install dependencies
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: npm install  
+      - name: Test code
+        id: run_tests_id
+        run: npm run test
+      - name: Upload test report
+        if: failure() && steps.run_tests_id.outcome == 'failure' 
+        #failure() is a function that checks if the previous step failed
+        #success() is a function that checks if the previous step succeeded
+        uses: actions/upload-artifact@v2
+        with:
+          name: test-report
+          path: test.json   
+
+  build-job: 
+    needs: test-job
+    runs-on: ubuntu-latest
+    outputs:
+      script-file: ${{ steps.publishId.outputs.script-file }}
+    steps:
+      - name: Get code
+        uses: actions/checkout@v2
+      - name: Cache dependencies
+        id: cache
+        uses: actions/cache@v2 
+        with:
+           path: node_modules
+           key: deps-node-modules-${{ hashFiles('**/package-lock.json') }}
+      - name: Install dependencies
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: npm install 
+      - name: Build website
+        run: npm run build
+      - name: Publish JS filename
+        id: publishId
+        run: find dist/assets/*.js -type f -execdir echo 'script-file={}' >> $GITHUB_OUTPUT ';'  
+      - name: Upload artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: dist-files
+          path: dist  
+
+  deploy-job:
+    needs: build-job
+    uses: ./.github/workflows/reusable.yml  
+
+  report-job:
+    needs: [test-job, deploy-job]
+    if: failure()
+    runs-on: ubuntu-latest
+    steps:
+      - name: Output info 
+        run: | 
+          echo "Something went wrong. Please check the test report"
+          echo "${{ github }}"
+            

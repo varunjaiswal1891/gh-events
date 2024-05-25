@@ -1,0 +1,8 @@
+name: Reusable deploy workflow
+on: workflow_call
+jobs:
+  deploy-job:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Output Event Data
+        run: echo "Deploying and uploading..."    
