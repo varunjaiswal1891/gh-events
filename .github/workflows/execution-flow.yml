@@ -81,7 +81,6 @@ jobs:
 
   report-job:
     if: failure()
-    needs: test-job
     runs-on: ubuntu-latest
     steps:
       - name: Output info 
