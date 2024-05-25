@@ -1,7 +1,7 @@
 name: Reusable deploy workflow
 on: workflow_call
 jobs:
-  deploy-job:
+  deploy-job-resuable:
     runs-on: ubuntu-latest
     steps:
       - name: Output Event Data
