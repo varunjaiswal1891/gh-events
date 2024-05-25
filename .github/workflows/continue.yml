@@ -25,11 +25,9 @@ jobs:
         run: npm install  
       - name: Test code
         id: run_tests_id
+        continue-on-error: true
         run: npm run test
       - name: Upload test report
-        if: failure() && steps.run_tests_id.outcome == 'failure' 
-        #failure() is a function that checks if the previous step failed
-        #success() is a function that checks if the previous step succeeded
         uses: actions/upload-artifact@v2
         with:
           name: test-report
