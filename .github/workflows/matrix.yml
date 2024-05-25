@@ -1,0 +1,21 @@
+name: Matrix demo workflow
+on: push
+jobs:
+    build-job:
+        continue-on-error: true
+        strategy:
+            matrix:
+                node-version: [12, 14, 16]
+                operating-system: [ubuntu-latest, windows-latest] #tells run this jobs on each of array objects ubuntu and windows 
+        runs-on: ${{ matrix.operating-system }}     
+        steps:
+            - name: Get code
+              uses: actions/checkout@v2   
+            - name: Install nodejs
+              uses: actions/setup-node@v2
+              with:
+                  node-version: ${{ matrix.node-version }} #tells run this jobs on each of array objects 10, 12, 14 with each os type ubuntu and windows
+            - name: Install dependencies
+              run: npm install   
+            - name: Build Project
+              run: npm run build         
