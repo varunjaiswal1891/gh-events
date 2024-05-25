@@ -62,6 +62,8 @@ jobs:
   deploy-job:
     needs: build-job
     uses: ./.github/workflows/reusable.yml  
+    with:
+      my-artifact-name: dist-files
 
   report-job:
     needs: [test-job, deploy-job]
