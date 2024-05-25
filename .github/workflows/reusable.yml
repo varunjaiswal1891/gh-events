@@ -7,8 +7,17 @@ on:
         required: false
         type: string
         default: 'dist-files'
+    outputs:
+      result: 
+        description: 'The result of the deployment operation '
+        value: ${{ jobs.deploy-job-resuable.outputs.my-outcome }}    
+    #secrets:
+     #  my-secret-name: 
+      #   required: true  
 jobs:
   deploy-job-resuable:
+    outputs:
+      my-outcome: ${{ steps.set-result-id.outputs.step-result }}
     runs-on: ubuntu-latest
     steps:
       - name: Get code
@@ -19,3 +28,6 @@ jobs:
         run: ls -l    
       - name: Output Event Data
         run: echo "Deploying and uploading..."    
+      - name: Set output result
+        id: set-result-id
+        run: echo "::set-output name=step-result::Deployment successful"

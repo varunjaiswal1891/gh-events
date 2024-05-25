@@ -64,6 +64,16 @@ jobs:
     uses: ./.github/workflows/reusable.yml  
     with:
       my-artifact-name: dist-files
+    #secrets:
+    #  my-secret-name: "temp value"  
+   
+  print-deploy-result-job:
+      needs: deploy-job
+      runs-on: ubuntu-latest
+      steps:
+         - name: Print deployment result 
+           run: |
+                echo "${{ needs.deploy-job.outputs.result }}"
 
   report-job:
     needs: [test-job, deploy-job]
