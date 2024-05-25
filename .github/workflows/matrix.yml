@@ -13,8 +13,8 @@ jobs:
                 exclude:
                     - node-version: 16
                       operating-system: windows-latest    
-                runs-on: ${{ matrix.operating-system }}     
-        steps:
+       runs-on: ${{ matrix.operating-system }}     
+       steps:
             - name: Get code
               uses: actions/checkout@v2   
             - name: Install nodejs
