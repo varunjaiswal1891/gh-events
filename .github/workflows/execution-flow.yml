@@ -15,11 +15,13 @@ jobs:
       - name: Get code
         uses: actions/checkout@v2
       - name: Cache dependencies
+        id: cache
         uses: actions/cache@v2 
         with:
-           path: ~/.npm 
+           path: node_modules
            key: deps-node-modules-${{ hashFiles('**/package-lock.json') }}
       - name: Install dependencies
+        if: steps.cache.outputs.cache-hit != 'true'
         run: npm install  
       - name: Test code
         id: run_tests_id
@@ -42,11 +44,13 @@ jobs:
       - name: Get code
         uses: actions/checkout@v2
       - name: Cache dependencies
+        id: cache
         uses: actions/cache@v2 
         with:
-           path: ~/.npm 
+           path: node_modules
            key: deps-node-modules-${{ hashFiles('**/package-lock.json') }}
       - name: Install dependencies
+        if: steps.cache.outputs.cache-hit != 'true'
         run: npm install 
       - name: Build website
         run: npm run build
