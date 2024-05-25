@@ -80,6 +80,7 @@ jobs:
         run: echo "Deploying..."     
 
   report-job:
+    needs: [test-job, deploy-job]
     if: failure()
     runs-on: ubuntu-latest
     steps:
